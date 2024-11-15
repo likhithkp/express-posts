@@ -62,7 +62,10 @@ app.post("/login", async (req, res) => {
         if(!isMatch) return res.redirect("/login");
 
         let jwtToken = jwt.sign({email: userExists.email, userId: userExists._id}, "secretKey");
-        res.cookie("jwtToken", jwtToken);
+        res.cookie("jwtToken", jwtToken, {
+                httpOnly: true,
+                secure: true 
+            });
         return res.redirect("home");
 
     } catch (error) {
