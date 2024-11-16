@@ -4,8 +4,233 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .profile-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+            transition: all 0.3s ease;
+        }
+    
+        .profile-container:hover {
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+    
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+    
+        .profile-header h1 {
+            margin: 0;
+            font-size: 26px;
+            color: #333;
+            font-weight: 600;
+        }
+    
+        .logout-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+    
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
+    
+        .post-form {
+            margin-bottom: 30px;
+        }
+    
+        .post-form textarea {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            resize: vertical;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+    
+        .post-form textarea:focus {
+            border-color: #3498db;
+        }
+    
+        .post-form button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+    
+        .post-form button:hover {
+            background-color: #2980b9;
+        }
+    
+        .posts-section {
+            margin-top: 40px;
+        }
+    
+        .posts-section h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+    
+        .posts-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+    
+        .posts-list li {
+            background-color: #ffffff;
+            border: 1px solid #e4e4e4;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+    
+        .posts-list li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+    
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+    
+        .post-username {
+            font-weight: 600;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+    
+        .post-content {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+    
+        .post-actions {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            margin-top: 15px;
+        }
+    
+        .post-actions button {
+            background-color: #16a085;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+    
+        .post-actions button.like-btn {
+            background-color: #2ecc71;
+        }
+    
+        .post-actions button.edit-btn {
+            background-color: #f39c12;
+        }
+    
+        .post-actions button:hover {
+            opacity: 0.8;
+        }
+    
+        .post-date {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #888;
+        }
+    
+        .post-date small {
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome Profile</h1>
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1>Welcome, <%= user.name %></h1>
+            <a class="logout-btn" href="/logout">Logout</a>
+        </div>
+
+        <form action="post" method="post" class="post-form">
+            <textarea name="content" rows="4" placeholder="Write your post here..."></textarea>
+            <button type="submit">Post</button>
+        </form>
+
+        <div class="posts-section">
+            <h2>Posts</h2>
+            <ul class="posts-list">
+                <% if (user.posts && user.posts.length > 0) { %>
+                    <% user.posts.reverse().forEach((post) => { %>
+                        <li>
+                            <div class="post-header">
+                                <span class="post-username"><%= user.name %></span>
+                            </div>
+                            <div class="post-content">
+                                <%= post.content %>
+                            </div>
+                            <div class="post-actions">
+                                <button class="like-btn"><%= post?.likes?.length || 0 %> Likes</button>
+                                <button>Edit</button>
+                            </div>
+                            <div class="post-date">
+                        <small>Posted on <%= new Date(post.date).toLocaleString() %></small>
+                    </div>
+                        </li>
+                    <% }) %>
+                <% } else { %>
+                    <li>
+                        <p>No posts available. Start by creating a new post!</p>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>

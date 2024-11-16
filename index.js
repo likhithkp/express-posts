@@ -1,6 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const userModel = require("./models/user");
+const postModel = require("./models/post");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
 const isLoggenIn = require("./middlewares/authentication")
@@ -15,10 +16,6 @@ app.use(cookieParser());
 
 app.get("/", (_, res) => {
     res.render("index")
-});
-
-app.get("/home", (_, res) => {
-    res.render("home")
 });
 
 app.post("/register", async (req, res) => {
@@ -66,15 +63,29 @@ app.post("/login", async (req, res) => {
                 httpOnly: true,
                 secure: true 
             });
-        return res.redirect("home");
+        return res.redirect("/profile");
 
     } catch (error) {
         res.status(500).send("Something went wrong");
     }
 });
 
-app.get("/profile", isLoggenIn, (_, res) => {
-    res.render("profile");
+app.get("/profile", isLoggenIn, async (req, res) => {
+    let user = await userModel.findOne({email: req.user.email}).populate("posts");
+    res.render("profile", {user: user});
+});
+
+app.post("/post",isLoggenIn, async (req, res) => {
+    let user = await userModel.findOne({email: req.user.email})
+
+    const post = await postModel.create({
+        user: user._id,
+        content: req.body.content,
+    }) 
+
+    user.posts.push(post._id);
+    await user.save();
+    res.redirect("/profile");
 });
 
 app.get("/logout", (_, res) => {
