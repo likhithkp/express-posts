@@ -29,3 +29,18 @@ This is a simple Express-based app that includes user authentication and authori
    ```bash
    git clone https://github.com/likhithkp/express-posts.git
    cd express-posts
+
+2. Install dependencies:
+   ```bash
+   yarn
+
+3. Start the server:
+    ```bash
+    yarn dev
+
+## How It Works
+
+- **Registration**: Users can register with their username and password. The password is hashed using bcrypt before being stored in the database.
+- **Login**: Upon successful login, a JWT is generated and sent to the client. This token should be stored securely (e.g., in cookies).
+- **Authorization**: For any post-related actions (like viewing, creating, editing, or liking a post), the client must send the JWT in the Authorization header to authenticate the user.
+- **Post Management**: Users can create, view, edit, and like posts. Only the user who created a post can edit or delete it.
