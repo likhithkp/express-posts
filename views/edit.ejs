@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= user?.username %></title>
+    <title>Edit</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -204,50 +204,11 @@
 
 <body>
     <div class="profile-container">
-        <div class="profile-header">
-            <h1>Welcome, <%= user?.username %> </h1>
-            <a class="logout-btn" href="/logout">Logout</a>
-        </div>
-
-        <form action="post" method="post" class="post-form">
-            <textarea name="content" rows="4" placeholder="Write your post here..."></textarea>
-            <button type="submit">Post</button>
+        <form action="/update/<%= post._id %>" method="post" class="post-form">
+            <textarea name="content" rows="4" placeholder="Write your post here..."><%= post?.content %></textarea>
+            <button type="submit">Update</button>
         </form>
-
-        <div class="posts-section">
-            <h2>Posts</h2>
-            <div class="posts-list">
-                <% if (user.posts && user.posts.length> 0) { %>
-                    <% user.posts.reverse().forEach((post)=> { %>
-                        <li>
-                            <div class="post-header">
-                                <span class="post-username">
-                                    <%= user?.username %>
-                                </span>
-                            </div>
-                            <div class="post-content">
-                                <%= post?.content %>
-                            </div>
-                            <%= post?.likes?.length || 0 %> Likes
-                            <div class="post-actions">
-                                <a href="/like/<%= post._id%>" class="like-ref"> <%= post?.likes.indexOf(user?._id) ?  "Like" : "Unlike" %>
-                                </a>
-                                <a href="/edit/<%= post._id%>" class="edit-ref">Edit</a>
-                            </div>
-                            <div class="post-date">
-                                <small>Posted on <%= new Date(post?.date).toLocaleString() %></small>
-                            </div>
-                        </li>
-                        <% }) %>
-                            <% } else { %>
-                                <li>
-                                    <p>No posts available. Start by creating a new post!</p>
-                                </li>
-                            <% } %>
-            </div>
-        </div>
     </div>
-
 </body>
 
 </html>
