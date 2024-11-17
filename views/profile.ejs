@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= user?.username %></title>
+    <title>
+        <%= user?.username %>
+    </title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -40,6 +42,22 @@
             padding-bottom: 10px;
         }
 
+        /* Profile Photo Styling */
+        .profile-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+        .profile-photo .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
         .profile-header h1 {
             margin: 0;
             font-size: 26px;
@@ -63,6 +81,7 @@
             background-color: #c0392b;
         }
 
+        /* Other existing styles */
         .post-form {
             margin-bottom: 30px;
         }
@@ -205,7 +224,12 @@
 <body>
     <div class="profile-container">
         <div class="profile-header">
-            <h1>Welcome, <%= user?.username %> </h1>
+            <!-- Profile Photo Section -->
+            <div class="profile-photo">
+                <img src="/images/uploads/<%= user?.profilePic %>" alt="<%= user?.username %>'s Profile" class="profile-img">
+            </div>
+            <h1>Welcome, <%= user?.username %>
+            </h1>
             <a class="logout-btn" href="/logout">Logout</a>
         </div>
 
@@ -229,25 +253,26 @@
                                 <%= post?.content %>
                             </div>
                             <%= post?.likes?.length || 0 %> Likes
-                            <div class="post-actions">
-                                <a href="/like/<%= post._id%>" class="like-ref"> <%= post?.likes.indexOf(user?._id) ?  "Like" : "Unlike" %>
-                                </a>
-                                <a href="/edit/<%= post._id%>" class="edit-ref">Edit</a>
-                            </div>
-                            <div class="post-date">
-                                <small>Posted on <%= new Date(post?.date).toLocaleString() %></small>
-                            </div>
+                                <div class="post-actions">
+                                    <a href="/like/<%= post._id %>" class="like-ref">
+                                        <%= post?.likes.indexOf(user?._id) ? "Like" : "Unlike" %>
+                                    </a>
+                                    <a href="/edit/<%= post._id %>" class="edit-ref">Edit</a>
+                                </div>
+                                <div class="post-date">
+                                    <small>Posted on <%= new Date(post?.date).toLocaleString() %></small>
+                                </div>
                         </li>
                         <% }) %>
                             <% } else { %>
                                 <li>
                                     <p>No posts available. Start by creating a new post!</p>
                                 </li>
-                            <% } %>
+                                <% } %>
             </div>
         </div>
     </div>
-
 </body>
+
 
 </html>

@@ -1,13 +1,12 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const multer  = require('multer')
-const isLoggenIn = require("./middlewares/authentication")
+const path = require("path");
+const isLoggenIn = require("./middlewares/authentication");
 const userModel = require("./models/user");
 const postModel = require("./models/post");
-const crypto = require("crypto");
-const path = require("path");
+const upload = require("./utils/multer");
 
 const app = express();
 
@@ -15,21 +14,8 @@ app.set("view engine", "ejs");
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
-
-const storage = multer.diskStorage({
-    destination: function (_, _, cb) {
-      cb(null, './public/images/uploads')
-    },
-    filename: function (_, file, cb) {
-        crypto.randomBytes(12, (_, bytes) => {
-            const fn = bytes.toString("hex") + path.extname(file.originalname)
-            cb(null, fn)
-        })
-    }
-  })
-
-const upload = multer({ storage: storage })
 
 app.get("/", (_, res) => {
     res.render("index")
@@ -97,10 +83,13 @@ app.get("/upload", isLoggenIn, async (req, res) => {
 });
 
 app.post("/upload", isLoggenIn, upload.single('file'), async (req, res) => {
-    console.log(req.file)
+    let user = await userModel.findOne({email: req.user.email});
+    user.profilePic = req.file.filename;
+    await user.save();
+    res.redirect("/profile");
 });
 
-app.post("/post",isLoggenIn, async (req, res) => {
+app.post("/post", isLoggenIn, async (req, res) => {
     let user = await userModel.findOne({email: req.user.email})
 
     const post = await postModel.create({
@@ -139,7 +128,7 @@ app.post("/update/:id", isLoggenIn, async (req, res) => {
 app.get("/logout", (_, res) => {
     res.cookie("jwtToken", "");
     res.redirect("/login");
-})
+});
 
 app.listen(3000);
 

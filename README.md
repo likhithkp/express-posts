@@ -1,13 +1,13 @@
 # Express Post App with User Authentication & Authorization
 
-This is a simple Express-based app that includes user authentication, authorization, and file upload functionality. It uses `bcrypt` for password hashing, `jsonwebtoken (JWT)` for secure token generation, and cookies for storing the JWT. Once logged in, users can create, view, edit, and like posts, as well as upload files (e.g., images) for their posts.
+This is a simple Express-based app that includes user authentication, authorization, and file upload functionality. It uses `bcrypt` for password hashing, `jsonwebtoken (JWT)` for secure token generation, and cookies for storing the JWT. Once logged in, users can create, view, edit, and like posts, as well as upload profile picture.
 
 ## Features
 
 - **User Authentication**: Login with a username and password.
 - **User Authorization**: Only logged-in users can access post-related actions (view, create, edit, and like posts).
 - **Post Management**: Users can create new posts, view existing ones, edit posts they created, and like posts.
-- **File Uploads**: Users can upload files (e.g., images) when creating or editing posts using `multer`.
+- **File Uploads**: Users can upload profile picture using `multer`.
 
 ## Technologies Used
 
@@ -46,4 +46,4 @@ This is a simple Express-based app that includes user authentication, authorizat
 - **Login**: Upon successful login, a JWT is generated and sent to the client. This token should be stored securely (e.g., in cookies).
 - **Authorization**: For any post-related actions (like viewing, creating, editing, or liking a post), the client must send the JWT in the Authorization header to authenticate the user.
 - **Post Management**: Users can create, view, edit, and like posts. Only the user who created a post can edit or delete it.
-- **File Uploads**: Users can upload files (e.g., images) to accompany their posts. The files are stored and retrieved using multer middleware.
+- **File Uploads**: Users can upload profile picture to accompany their posts. The files are stored and retrieved using multer middleware.
