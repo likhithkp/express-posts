@@ -63,8 +63,6 @@ app.get("/login", (_, res) => {
     res.render("login")
 });
 
-express.Router
-
 app.post("/login", async (req, res) => {
     let { email, password} = req.body
  
