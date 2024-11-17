@@ -46,4 +46,4 @@ This is a simple Express-based app that includes user authentication, authorizat
 - **Login**: Upon successful login, a JWT is generated and sent to the client. This token should be stored securely (e.g., in cookies).
 - **Authorization**: For any post-related actions (like viewing, creating, editing, or liking a post), the client must send the JWT in the Authorization header to authenticate the user.
 - **Post Management**: Users can create, view, edit, and like posts. Only the user who created a post can edit or delete it.
-- **File Uploads**: Users can upload profile picture to accompany their posts. The files are stored and retrieved using multer middleware.
+- **File Uploads**: Users can upload profile picture. The files are stored and retrieved using multer middleware.
