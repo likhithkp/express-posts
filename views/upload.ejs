@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 50px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+        .upload-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+            box-sizing: border-box;
+        }
+        .upload-box h2 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .upload-box input[type="file"] {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .upload-box input[type="file"]:hover {
+            border-color: #4CAF50;
+            background-color: #e6f7e6;
+        }
+        .upload-box button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        .upload-box button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Upload Your File</h1>
+    <div class="container">
+        <div class="upload-box">
+
+            <h2>Select a file to upload</h2>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" id="file" required>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
